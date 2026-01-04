@@ -1,8 +1,25 @@
-import React from 'react'
+import { useCallback, useEffect } from 'react'
 import { CustomerReviews, Footer, Hero, PopularProduct, Services, SpecialOffer, Subscribe, SuperQuality } from './sections'
 import Nav from './components/Nav'
+import { isTMA, retrieveLaunchParams } from '@tma.js/bridge'
 
 const App = () => {
+
+  const handleChecking = useCallback(async() => {
+    if(await isTMA('complete')){
+      console.log('It is Telegram')
+      return
+    }
+    const data = retrieveLaunchParams()
+    console.log(data.tgWebAppData)
+    console.log('It is not Telegram')
+  }, [])
+
+  useEffect(() => {
+    handleChecking()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
 <>
 <main className='relative'>
