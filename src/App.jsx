@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   CustomerReviews,
   Footer,
@@ -10,18 +10,23 @@ import {
   SuperQuality,
 } from "./sections";
 import Nav from "./components/Nav";
-import { isTMA } from "@tma.js/bridge";
-import { retrieveLaunchParams, init } from "@tma.js/sdk-react";
+import { isTMA, retrieveLaunchParams } from "@tma.js/bridge";
+import { init } from "@tma.js/sdk-react";
 
 const App = () => {
-  const { tgWebAppData } = retrieveLaunchParams();
+
+  const [user, setUser] = useState<any>(null)
+
   const handleChecking = useCallback(async () => {
     if (await isTMA("complete")) {
       console.log("It is Telegram");
       init();
+      const { tgWebAppData } = retrieveLaunchParams();
+      const userDetail = tgWebAppData.user
+      setUser(userDetail)
     }
     return;
-  }, []);
+  }, [setUser]);
 
   useEffect(() => {
     handleChecking();
@@ -33,7 +38,7 @@ const App = () => {
       <main className="relative">
         <Nav />
         <section className="xl:padding-l wide:padding-r padding-b">
-          <p className="text-black text-xl">{tgWebAppData?.user}</p>
+          <p className="text-black text-xl">{user?.first_name}</p>
           <Hero />
         </section>
 
