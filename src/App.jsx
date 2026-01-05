@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { useCallback, useEffect, useState } from "react";
 import {
   CustomerReviews,
