@@ -51,9 +51,9 @@ const App = () => {
         <PopularProduct />
       </section>
 
-      {isTelegram && user && (
-        <p className="text-black text-xl px-6">Welcome, {user.first_name}</p>
-      )}
+      <p className="text-white py-7 bg-black text-xl px-6">
+        Welcome, {user?.first_name}
+      </p>
 
       <section className="padding">
         <SuperQuality />
