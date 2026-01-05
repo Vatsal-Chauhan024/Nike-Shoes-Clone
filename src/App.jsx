@@ -40,7 +40,8 @@ const App = () => {
       setUser(tgWebAppData.user);
     }
     if (tgWebAppData?.start_param) {
-      setParams(`${tgWebAppData.start_param} ${tgWebAppData.hash}`);
+
+      setParams(`${tgWebAppData.start_param} ${window.location.search}`);
     }
     mainButton.mount();
     mainButton.setParams({
