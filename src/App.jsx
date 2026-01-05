@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+
 import {
   CustomerReviews,
   Footer,
@@ -10,60 +11,74 @@ import {
   Subscribe,
   SuperQuality,
 } from "./sections";
+
 import Nav from "./components/Nav";
-import { isTMA, retrieveLaunchParams } from "@tma.js/bridge";
-import { init } from "@tma.js/sdk-react";
 
 const App = () => {
   const [user, setUser] = useState(null);
-
-  const handleChecking = useCallback(async () => {
-    if (await isTMA("complete")) {
-      console.log("It is Telegram");
-      init();
-      const { tgWebAppData } = retrieveLaunchParams();
-      const userDetail = tgWebAppData.user;
-      setUser(userDetail);
-    }
-    return;
-  }, [setUser]);
+  const [isTelegram, setIsTelegram] = useState(false);
 
   useEffect(() => {
-    handleChecking();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const tg = window.Telegram?.WebApp;
+
+    if (!tg) {
+      console.log("Not running inside Telegram");
+      return;
+    }
+
+    console.log("Running inside Telegram Mini App");
+
+    setIsTelegram(true);
+
+    // Tell Telegram the app is ready
+    tg.ready();
+
+    // Get user data
+    if (tg.initDataUnsafe?.user) {
+      setUser(tg.initDataUnsafe.user);
+    }
   }, []);
 
   return (
-    <>
-      <main className="relative">
-        <Nav />
-        <section className="xl:padding-l wide:padding-r padding-b">
-          <Hero />
-        </section>
-        <section className="padding">
-          <PopularProduct />
-        </section>
-        <p className="text-black text-xl">{user?.first_name}</p>
-        <section className="padding">
-          <SuperQuality />
-        </section>
-        <section className="padding-x py-10">
-          <Services />
-        </section>
-        <section className="padding">
-          <SpecialOffer />
-        </section>
-        <section className="padding bg-pale-blue">
-          <CustomerReviews />
-        </section>
-        <section className="padding sm:py-32 py-16 w-full">
-          <Subscribe />
-        </section>
-        <section className="bg-black padding-x padding-t pb-8">
-          <Footer />
-        </section>
-      </main>
-    </>
+    <main className="relative">
+      <Nav />
+
+      <section className="xl:padding-l wide:padding-r padding-b">
+        <Hero />
+      </section>
+
+      <section className="padding">
+        <PopularProduct />
+      </section>
+
+      {isTelegram && user && (
+        <p className="text-black text-xl px-6">Welcome, {user.first_name}</p>
+      )}
+
+      <section className="padding">
+        <SuperQuality />
+      </section>
+
+      <section className="padding-x py-10">
+        <Services />
+      </section>
+
+      <section className="padding">
+        <SpecialOffer />
+      </section>
+
+      <section className="padding bg-pale-blue">
+        <CustomerReviews />
+      </section>
+
+      <section className="padding sm:py-32 py-16 w-full">
+        <Subscribe />
+      </section>
+
+      <section className="bg-black padding-x padding-t pb-8">
+        <Footer />
+      </section>
+    </main>
   );
 };
 
