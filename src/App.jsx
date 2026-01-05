@@ -15,16 +15,15 @@ import { isTMA, retrieveLaunchParams } from "@tma.js/bridge";
 import { init } from "@tma.js/sdk-react";
 
 const App = () => {
-
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null);
 
   const handleChecking = useCallback(async () => {
     if (await isTMA("complete")) {
       console.log("It is Telegram");
       init();
       const { tgWebAppData } = retrieveLaunchParams();
-      const userDetail = tgWebAppData.user
-      setUser(userDetail)
+      const userDetail = tgWebAppData.user;
+      setUser(userDetail);
     }
     return;
   }, [setUser]);
@@ -39,13 +38,12 @@ const App = () => {
       <main className="relative">
         <Nav />
         <section className="xl:padding-l wide:padding-r padding-b">
-          <p className="text-black text-xl">{user?.first_name}</p>
           <Hero />
         </section>
-
         <section className="padding">
           <PopularProduct />
         </section>
+        <p className="text-black text-xl">{user?.first_name}</p>
         <section className="padding">
           <SuperQuality />
         </section>
