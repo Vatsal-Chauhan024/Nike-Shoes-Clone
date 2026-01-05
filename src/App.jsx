@@ -17,18 +17,17 @@ import Nav from "./components/Nav";
 const App = () => {
   const [user, setUser] = useState(null);
   const [isTelegram, setIsTelegram] = useState(false);
+  console.log("isTelegram", isTelegram);
 
   useEffect(() => {
     const tg = window.Telegram?.WebApp;
 
     if (!tg) {
-      console.log("Not running inside Telegram");
+      setIsTelegram("Not running inside Telegram");
       return;
     }
 
-    console.log("Running inside Telegram Mini App");
-
-    setIsTelegram(true);
+    setIsTelegram("Running inside Telegram Mini App");
 
     // Tell Telegram the app is ready
     tg.ready();
@@ -52,7 +51,7 @@ const App = () => {
       </section>
 
       <p className="text-white py-7 bg-black text-xl px-6">
-        Welcome, {user?.first_name} {isTelegram}
+        Welcome,{isTelegram}  {user?.first_name} 
       </p>
 
       <section className="padding">
