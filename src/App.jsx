@@ -41,7 +41,7 @@ const App = () => {
     }
     if (tgWebAppData?.start_param) {
 
-      setParams(`${tgWebAppData.start_param} ${window.location.search}`);
+      setParams(`${tgWebAppData.start_param} ${window.location.pathname}`);
     }
     mainButton.mount();
     mainButton.setParams({
@@ -86,7 +86,7 @@ const App = () => {
           <section className="padding">
             <SuperQuality />
             <p className="text-white text-xl py-5 bg-black">
-              Welcome <span>Parma: {startParams}</span>
+              Welcome <p>Parma: {startParams}</p>
               {Object.entries(user).map(([key, values]) => {
                 return (
                   <span key={key}>
