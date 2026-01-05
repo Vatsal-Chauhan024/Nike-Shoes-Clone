@@ -19,6 +19,7 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [isTelegram, setIsTelegram] = useState(false);
   const [isLaunched, setIsLaunched] = useState(false);
+  const [startParams, setParams] = useState("");
 
   const handleChecking = useCallback(async () => {
     const telegram = await isTMA("complete", { timeout: 100 });
@@ -37,6 +38,9 @@ const App = () => {
 
     if (tgWebAppData?.user) {
       setUser(tgWebAppData.user);
+    }
+    if (tgWebAppData?.start_param) {
+      setParams(tgWebAppData.start_param);
     }
     mainButton.mount();
     mainButton.setParams({
@@ -81,7 +85,7 @@ const App = () => {
           <section className="padding">
             <SuperQuality />
             <p className="text-white text-xl py-5 bg-black">
-              Welcome{" "}
+              Welcome <span>Parma: {startParams}</span>
               {Object.entries(user).map(([key, values]) => {
                 return (
                   <span key={key}>
