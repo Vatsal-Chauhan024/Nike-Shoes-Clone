@@ -23,26 +23,21 @@ const App = () => {
   const handleChecking = useCallback(async () => {
     const telegram = await isTMA("complete", { timeout: 100 });
 
-    // 👉 Normal browser
     if (!telegram) {
       setIsTelegram(false);
-      setIsLaunched(true); // show website immediately
+      setIsLaunched(true);
       return;
     }
 
-    // 👉 Telegram Mini App
     setIsTelegram(true);
 
-    init(); // REQUIRED for Telegram SDK
-
+    init();
     const { tgWebAppData } = retrieveLaunchParams();
     console.log("tgWebAppData:", tgWebAppData);
 
     if (tgWebAppData?.user) {
       setUser(tgWebAppData.user);
     }
-
-    // Setup Telegram Main Button
     mainButton.mount();
     mainButton.setParams({
       text: "Open Website",
@@ -60,18 +55,17 @@ const App = () => {
 
   useEffect(() => {
     handleChecking();
-  }, [handleChecking]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
-      {/* TELEGRAM LAUNCH SCREEN */}
       {!isLaunched && isTelegram && (
         <div className="h-screen flex items-center justify-center text-xl font-semibold">
           Tap the button below to continue
         </div>
       )}
 
-      {/* MAIN WEBSITE */}
       {isLaunched && (
         <main className="relative">
           <Nav />
@@ -87,7 +81,14 @@ const App = () => {
           <section className="padding">
             <SuperQuality />
             <p className="text-white text-xl py-5 bg-black">
-              Welcome {user?.first_name}
+              Welcome{" "}
+              {Object.entries(user).map(([key, values]) => {
+                return (
+                  <span key={key}>
+                    {key} {values}
+                  </span>
+                );
+              })}
             </p>
           </section>
 
