@@ -98,6 +98,9 @@ const App = () => {
           </section>
 
           <section className="padding-x py-10">
+            <p className="text-white text-xl py-5 bg-black">
+              {window.location.search}
+            </p>
             <Services />
           </section>
 
