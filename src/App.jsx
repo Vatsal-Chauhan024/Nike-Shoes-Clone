@@ -16,7 +16,7 @@ import { init } from "@tma.js/sdk-react";
 
 const App = () => {
 
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser] = useState(null)
 
   const handleChecking = useCallback(async () => {
     if (await isTMA("complete")) {
