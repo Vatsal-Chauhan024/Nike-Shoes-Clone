@@ -52,7 +52,7 @@ const App = () => {
       </section>
 
       <p className="text-white py-7 bg-black text-xl px-6">
-        Welcome, {user?.first_name}
+        Welcome, {user?.first_name} {isTelegram}
       </p>
 
       <section className="padding">
