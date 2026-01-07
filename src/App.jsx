@@ -39,9 +39,10 @@ const App = () => {
     if (tgWebAppData?.user) {
       setUser(tgWebAppData.user);
     }
-    if (tgWebAppData?.start_param) {
-
-      setParams(`${tgWebAppData.start_param} ${window.location.pathname}`);
+    if (window.Telegram.WebApp.initDataUnsafe.start_param) {
+      setParams(
+        `${window.Telegram.WebApp.initDataUnsafe.start_param} ${window.location.pathname}`
+      );
     }
     mainButton.mount();
     mainButton.setParams({
@@ -87,13 +88,14 @@ const App = () => {
             <SuperQuality />
             <p className="text-white text-xl py-5 bg-black">
               Welcome <p>Parma: {startParams}</p>
-              {Object.entries(user).map(([key, values]) => {
-                return (
-                  <span key={key}>
-                    {key} {values}
-                  </span>
-                );
-              })}
+              {user &&
+                Object.entries(user).map(([key, values]) => {
+                  return (
+                    <span key={key}>
+                      {key} {values}
+                    </span>
+                  );
+                })}
             </p>
           </section>
 
