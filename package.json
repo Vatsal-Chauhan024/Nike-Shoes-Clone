@@ -12,7 +12,6 @@
   "dependencies": {
     "@tma.js/bridge": "^2.2.2",
     "@tma.js/sdk-react": "^3.0.14",
-    "@vitejs/plugin-basic-ssl": "^2.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
