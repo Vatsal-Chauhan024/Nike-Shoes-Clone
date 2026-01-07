@@ -39,9 +39,9 @@ const App = () => {
     if (tgWebAppData?.user) {
       setUser(tgWebAppData.user);
     }
-    if (window.Telegram.WebApp.initDataUnsafe.start_param) {
+    if (tgWebAppData?.start_param) {
       setParams(
-        `${window.Telegram.WebApp.initDataUnsafe.start_param} ${window.location.pathname}`
+        `${tgWebAppData?.start_param} ${window.location.pathname}`
       );
     }
     mainButton.mount();
