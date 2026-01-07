@@ -12,7 +12,7 @@ import {
 import Nav from "./components/Nav";
 
 import { isTMA, retrieveLaunchParams } from "@tma.js/bridge";
-import { init, initData } from "@tma.js/sdk-react";
+import { init } from "@tma.js/sdk-react";
 import { mainButton } from "@tma.js/sdk";
 
 const App = () => {
@@ -20,7 +20,6 @@ const App = () => {
   const [isTelegram, setIsTelegram] = useState(false);
   const [isLaunched, setIsLaunched] = useState(false);
   const [startParams, setParams] = useState("");
-  const [initsData, setInitssData] = useState("");
 
   const handleChecking = useCallback(async () => {
     const telegram = await isTMA("complete", { timeout: 100 });
@@ -38,9 +37,6 @@ const App = () => {
     console.log("tgWebAppData:", tgWebAppData);
 
     if (tgWebAppData?.user) {
-      setInitssData(
-        `${initData?.state} ${initData?.raw} ${initData?.startParam}`
-      );
       setUser(tgWebAppData.user);
     }
     if (tgWebAppData?.start_param) {
@@ -63,6 +59,13 @@ const App = () => {
 
   useEffect(() => {
     handleChecking();
+
+    window.addEventListener("message", (e) => {
+      setParams(e);
+    });
+    window.removeEventListener("message", (e) => {
+      setParams(e);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -90,9 +93,6 @@ const App = () => {
             <SuperQuality />
             <p className="text-white text-xl py-5 bg-black">
               Welcome <p>Parma: {startParams}</p>
-              {initData !== '' && (
-                <p>{initData}</p>
-              )}
               {user &&
                 Object.entries(user).map(([key, values]) => {
                   return (
