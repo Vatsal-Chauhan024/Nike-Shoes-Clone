@@ -14,6 +14,7 @@ import Nav from "./components/Nav";
 import { isTMA, retrieveLaunchParams } from "@tma.js/bridge";
 import { init } from "@tma.js/sdk-react";
 import { mainButton } from "@tma.js/sdk";
+import { cloudStorage } from "@tma.js/sdk";
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -21,6 +22,7 @@ const App = () => {
   const [isLaunched, setIsLaunched] = useState(false);
   const [startParams, setParams] = useState("");
   const [message, setMessage] = useState();
+  const [keys, setKeys] = useState("");
 
   const handleChecking = useCallback(async () => {
     const telegram = await isTMA("complete", { timeout: 100 });
@@ -33,6 +35,10 @@ const App = () => {
 
     setIsTelegram(true);
     init();
+    cloudStorage.isSupported();
+    await cloudStorage.setItem("a", "a-value");
+    const existent = await cloudStorage.getItem("a");
+    setKeys(existent);
 
     // Retrieve params from the SDK bridge
     const { initData, startParam } = retrieveLaunchParams();
@@ -101,6 +107,8 @@ const App = () => {
             <p className="text-white text-xl py-5 bg-black">
               Welcome <p>Parma: {startParams}</p>
               Welcome {message && <p>Message: {message}</p>}
+              Welcome {message && <p>Message: {message}</p>}
+              Welcome {keys !== "" && keys && <p>Message: {keys}</p>}
               {user &&
                 Object.entries(user).map(([key, values]) => {
                   return (
