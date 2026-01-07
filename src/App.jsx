@@ -38,7 +38,7 @@ const App = () => {
     cloudStorage.isSupported();
     await cloudStorage.setItem("a", JSON.stringify(window.location));
     const existent = await cloudStorage.getItem("a");
-    setKeys(window.Telegram.WebApp.initDataUnsafe.start_param);
+    setKeys(window?.Telegram.WebApp?.initDataUnsafe?.start_param);
 
     // Retrieve params from the SDK bridge
     const { initData, startParam } = retrieveLaunchParams();
