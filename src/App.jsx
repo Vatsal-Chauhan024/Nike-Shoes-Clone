@@ -13,7 +13,7 @@ import Nav from "./components/Nav";
 
 import { isTMA, retrieveLaunchParams } from "@tma.js/bridge";
 import { init } from "@tma.js/sdk-react";
-import { mainButton } from "@tma.js/sdk";
+import { mainButton, openTelegramLink } from "@tma.js/sdk";
 import { cloudStorage } from "@tma.js/sdk";
 
 const App = () => {
@@ -36,9 +36,9 @@ const App = () => {
     setIsTelegram(true);
     init();
     cloudStorage.isSupported();
-    await cloudStorage.setItem("a", JSON.stringify(window.location));
+    await cloudStorage.setItem("a", "a-value");
     const existent = await cloudStorage.getItem("a");
-    setKeys(window?.Telegram.WebApp?.initDataUnsafe?.start_param);
+    setKeys(existent);
 
     // Retrieve params from the SDK bridge
     const { initData, startParam } = retrieveLaunchParams();
@@ -61,11 +61,20 @@ const App = () => {
       isVisible: true,
     });
 
+    const BOT_USERNAME = "MJTech123Bot";
+
     mainButton.onClick(() => {
+      const link = startParams
+        ? `https://t.me/${BOT_USERNAME}?startapp=${encodeURIComponent(
+            startParams
+          )}`
+        : `https://t.me/${BOT_USERNAME}`;
+
+      openTelegramLink(link);
       mainButton.hide();
-      setIsLaunched(true); // Only now reveal the main app content
+      setIsLaunched(true);
     });
-  }, []);
+  }, [startParams]);
 
   useEffect(() => {
     handleChecking();
@@ -80,7 +89,7 @@ const App = () => {
       setMessage(eventType, eventData);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [startParams]);
 
   return (
     <>
@@ -107,8 +116,6 @@ const App = () => {
             <p className="text-white text-xl py-5 bg-black">
               Welcome <p>Parma: {startParams}</p>
               Welcome {message && <p>Message: {message}</p>}
-              Welcome {message && <p>Message: {message}</p>}
-              Welcome {keys !== "" && keys && <p>Message: {keys}</p>}
               {user &&
                 Object.entries(user).map(([key, values]) => {
                   return (
