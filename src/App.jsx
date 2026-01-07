@@ -36,7 +36,7 @@ const App = () => {
     setIsTelegram(true);
     init();
     cloudStorage.isSupported();
-    await cloudStorage.setItem("a", window.location);
+    await cloudStorage.setItem("a", JSON.stringify(window.location));
     const existent = await cloudStorage.getItem("a");
     setKeys(existent);
 
