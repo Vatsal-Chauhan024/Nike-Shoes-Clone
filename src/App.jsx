@@ -31,29 +31,32 @@ const App = () => {
     }
 
     setIsTelegram(true);
-
     init();
-    const { tgWebAppData } = retrieveLaunchParams();
-    console.log("tgWebAppData:", tgWebAppData);
 
-    if (tgWebAppData?.user) {
-      setUser(tgWebAppData.user);
+    // Retrieve params from the SDK bridge
+    const { initData, startParam } = retrieveLaunchParams();
+
+    // 1. Capture the parameter
+    // It may be directly in 'startParam' or inside 'initData.startParam'
+    const paramValue = startParam || initData?.startParam || "";
+    setParams(paramValue);
+
+    if (initData?.user) {
+      setUser(initData.user);
     }
-    if (tgWebAppData?.start_param) {
-      setParams(`${tgWebAppData?.start_param} ${window.location.pathname}`);
-    }
+
+    // 2. Setup the "Manual Start" button
     mainButton.mount();
     mainButton.setParams({
-      text: "Open Website",
-      bgColor: "#000000",
+      text: "START BOT", // Mimic the bot's start button
+      bgColor: "#248bcf",
       textColor: "#ffffff",
       isVisible: true,
-      isEnabled: true,
     });
 
     mainButton.onClick(() => {
       mainButton.hide();
-      setIsLaunched(true);
+      setIsLaunched(true); // Only now reveal the main app content
     });
   }, []);
 
