@@ -62,6 +62,16 @@ const App = () => {
 
   useEffect(() => {
     handleChecking();
+
+    window.addEventListener("message", ({ data }) => {
+      const { eventType, eventData } = JSON.parse(data);
+      console.log(eventType, eventData);
+    });
+
+    window.removeEventListener("message", ({ data }) => {
+      const { eventType, eventData } = JSON.parse(data);
+      console.log(eventType, eventData);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
