@@ -20,6 +20,7 @@ const App = () => {
   const [isTelegram, setIsTelegram] = useState(false);
   const [isLaunched, setIsLaunched] = useState(false);
   const [startParams, setParams] = useState("");
+  const [message, setMessage] = useState();
 
   const handleChecking = useCallback(async () => {
     const telegram = await isTMA("complete", { timeout: 100 });
@@ -65,12 +66,12 @@ const App = () => {
 
     window.addEventListener("message", ({ data }) => {
       const { eventType, eventData } = JSON.parse(data);
-      console.log(eventType, eventData);
+      setMessage(eventType, eventData);
     });
 
     window.removeEventListener("message", ({ data }) => {
       const { eventType, eventData } = JSON.parse(data);
-      console.log(eventType, eventData);
+      setMessage(eventType, eventData);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -99,6 +100,7 @@ const App = () => {
             <SuperQuality />
             <p className="text-white text-xl py-5 bg-black">
               Welcome <p>Parma: {startParams}</p>
+              Welcome {message && <p>Message: {message}</p>}
               {user &&
                 Object.entries(user).map(([key, values]) => {
                   return (
