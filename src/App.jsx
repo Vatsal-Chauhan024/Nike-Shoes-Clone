@@ -59,13 +59,6 @@ const App = () => {
 
   useEffect(() => {
     handleChecking();
-
-    window.addEventListener("message", (e) => {
-      setParams(e);
-    });
-    window.removeEventListener("message", (e) => {
-      setParams(e);
-    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
